@@ -6,9 +6,53 @@ from tkinter import colorchooser
 from tabulate import tabulate
 
 
+
 root = Tk()
 root.title('The Weeknd- Album Database')
 root.geometry("1000x500")
+
+
+
+def primary_color():
+  primary_color = colorchooser.askcolor()[1]
+
+  #Update Treeview color
+  if primary_color:
+    # Pick color of striped rows
+    my_tree.tag_configure('evenrow', background=primary_color)
+
+def secondary_color ():
+  secondary_color = colorchooser.askcolor()[1]
+
+  #update Treeview color
+  if secondary_color: 
+    # Pick color of striped rows
+    my_tree.tag_configure('oddrow', background=secondary_color)
+    
+def highlight_color ():
+  highlight_color = colorchooser.askcolor()[1]
+
+  #Update Treeview color
+  if highlight_color: 
+   # Change Selected Color Treeview
+    style.map('Treeview', 
+              background=[('selected', highlight_color)])
+
+#Add Menu 
+my_menu = Menu(root)
+root.config(menu=my_menu)
+
+#Configure Menu
+option_menu = Menu(my_menu, tearoff=0)
+my_menu.add_cascade(label="Options", menu=option_menu)
+
+#Drop down Menu
+option_menu.add_command(label="Primary Color",command=primary_color)
+option_menu.add_command(label="Secondary Color",command=secondary_color)
+option_menu.add_command(label="Highlight Color",command=highlight_color)
+
+option_menu.add_command(label="Exit",command=root.quit)
+
 
 # Insert data into database [year, album name, num of songs, sales, release year]
 data = [
@@ -95,20 +139,19 @@ style.theme_use('default')
 
 # Configure the Treeview Colors
 style.configure("Treeview",
-	background="silver",
+	background="white",
 	foreground="black",
 	rowheight=25,
-	fieldbackground="#D3D3D3")
+	fieldbackground="#718194")
 
 # Change Selected Color Treeview
-
 style.map('Treeview',
 #Python list with tuple inside. 
-	background=[('selected', "#347083")])
+	background=[('selected', "347083")])
 
 # Create a Treeview Frame
 tree_frame = Frame(root)
-tree_frame.pack(pady=10)
+tree_frame.pack(pady=20)
 
 # Create a Treeview Scrollbar
 tree_scroll = Scrollbar(tree_frame)
@@ -146,7 +189,7 @@ my_tree.heading("Release year Ranking", text="Release year Ranking", anchor=CENT
 
 # Create Striped Row Tags
 my_tree.tag_configure('oddrow', background="white")
-my_tree.tag_configure('evenrow', background="lightgreen")
+my_tree.tag_configure('evenrow', background="light green")
 
 # Add our data to the screen
 global count
@@ -166,87 +209,50 @@ for record in data:
 data_frame = LabelFrame(root, text="Record")
 data_frame.pack(fill="x", expand="yes", padx=20)
 
-ary_label = Label(data_frame, text="Album Release Year")
-ary_label.grid(row=0, column=0, padx=10, pady=10)
-ary_entry = Entry(data_frame)
-ary_entry.grid(row=0, column=1, padx=10, pady=10)
+#ary_label = Label(data_frame, text="Album Release Year")
+#ary_label.grid(row=0, column=0, padx=10, pady=10)
+#ary_entry = Entry(data_frame)
+#ary_entry.grid(row=0, column=1, padx=10, pady=10)
 
-an_label = Label(data_frame, text="Album Name")
-an_label.grid(row=0, column=2, padx=10, pady=10)
-an_entry = Entry(data_frame)
-an_entry.grid(row=0, column=3, padx=10, pady=10)
+#an_label = Label(data_frame, text="Album Name")
+#an_label.grid(row=0, column=2, padx=10, pady=10)
+#an_entry = Entry(data_frame)
+#an_entry.grid(row=0, column=3, padx=10, pady=10)
 
-ns_label = Label(data_frame, text="Number of Songs")
-ns_label.grid(row=0, column=4, padx=10, pady=10)
-ns_entry = Entry(data_frame)
-ns_entry.grid(row=0, column=5, padx=10, pady=10)
+#ns_label = Label(data_frame, text="Number of Songs")
+#ns_label.grid(row=0, column=4, padx=10, pady=10)
+#ns_entry = Entry(data_frame)
+#ns_entry.grid(row=0, column=5, padx=10, pady=10)
 
-sales_label = Label(data_frame, text="Sales")
-sales_label.grid(row=1, column=0, padx=10, pady=10)
-sales_entry = Entry(data_frame)
-sales_entry.grid(row=1, column=1, padx=10, pady=10)
+#sales_label = Label(data_frame, text="Sales")
+#sales_label.grid(row=1, column=0, padx=10, pady=10)
+#sales_entry = Entry(data_frame)
+#sales_entry.grid(row=1, column=1, padx=10, pady=10)
 
-ryr_label = Label(data_frame, text="Release year Ranking")
-ryr_label.grid(row=1, column=2, padx=10, pady=10)
-ryr_entry = Entry(data_frame)
-ryr_entry.grid(row=1, column=3, padx=10, pady=10)
-
-#Display Selected Record 
-def select_record ():
-  #Clear entry boxes
-  ary_entry.delete (0, END)
-  an_entry.delete (0,End)
-  ns_entry.delete (0, End)
-  sales_entry.delete (0,END)
-  ryr_entry.delete (0,END)
-
-  #Grab record number to search through records
-  selected = my_tree.focus ()
-
-  #Grab record values
-  values = my_tree.item (selected, 'values')
-
-  #output entry boxes
-  ary_entry.insert (0, values [0])
-  an_entry.insert (0,values [1])
-  ns_entry.insert (0, values [2])
-  sales_entry.insert (0,values [3])
-  ryr_entry.insert (0,values [4])
-  
-  
+#ryr_label = Label(data_frame, text="Release year Ranking")
+#ryr_label.grid(row=1, column=2, padx=10, pady=10)
+#ryr_entry = Entry(data_frame)
+#ryr_entry.grid(row=1, column=3, padx=10, pady=10)
 
 
 
 # Add Command Buttons
-button_frame = LabelFrame(root, text="Commands")
-button_frame.pack(fill="x", expand="yes", padx=20)
+#button_frame = LabelFrame(root, text="Commands")
+#button_frame.pack(fill="x", expand="yes", padx=50)
 
-update_button = Button(button_frame, text="Update Record")
-update_button.grid(row=0, column=0, padx=10, pady=10)
-
-add_button = Button(button_frame, text="Add Record")
-add_button.grid(row=0, column=1, padx=10, pady=10)
-
-remove_all_button = Button(button_frame, text="Remove All Records")
-remove_all_button.grid(row=0, column=2, padx=10, pady=10)
-
-remove_one_button = Button(button_frame, text="Remove One Selected")
-remove_one_button.grid(row=0, column=3, padx=10, pady=10)
-
-remove_many_button = Button(button_frame, text="Remove Many Selected")
-remove_many_button.grid(row=0, column=4, padx=10, pady=10)
-
-move_up_button = Button(button_frame, text="Move Up")
-move_up_button.grid(row=0, column=5, padx=10, pady=10)
-
-move_down_button = Button(button_frame, text="Move Down")
-move_down_button.grid(row=0, column=6, padx=10, pady=10)
-
-select_record_button = Button(button_frame, text="Select Record", command =select_record)
-select_record_button.grid(row=0, column=7, padx=10, pady=10)
+#update_button = Button(button_frame, text="Update Record")
+#update_button.grid(row=0, column=0, padx=10, pady=10)
 
 
 
-query_database ()
+
+
+
+
+
+
+
+
+#query_database ()
 
 root.mainloop()
