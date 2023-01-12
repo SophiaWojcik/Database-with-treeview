@@ -1,9 +1,14 @@
+#Name: Sophia Wojcik
+#Date: January 11 2023
+#The Weeknd's albums database 
+
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
 from tkinter import colorchooser
 from tabulate import tabulate
+from PIL import ImageTk,Image
 
 
 
@@ -204,7 +209,23 @@ for record in data:
 	# increment counter
 	count += 1
 
+#Display album cover image when selecting a record 
 
+  
+img = Image.open("starboy.webp")
+img = img.resize((100,100))
+
+my = ImageTk.PhotoImage (img)
+label = Label (image = my)
+label.pack()
+
+
+
+
+
+
+
+  
 # Add Display Record Entry Boxes (after selecting a record)
 data_frame = LabelFrame(root, text="Record")
 data_frame.pack(fill="x", expand="yes", padx=20)
@@ -252,7 +273,6 @@ data_frame.pack(fill="x", expand="yes", padx=20)
 
 
 
-
-#query_database ()
+query_database ()
 
 root.mainloop()
